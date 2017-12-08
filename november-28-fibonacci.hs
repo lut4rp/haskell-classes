@@ -1,6 +1,7 @@
 module Fibbb where
 
-zero = 0
-one = 1
+fibb :: Int -> Int
 
-fib n = if n < 2 then
+fibb 0 = 0
+fibb 1 = 1
+fibb n = fibb (n - 1) + fibb (n - 2)
