@@ -12,19 +12,24 @@ slope :: LineSegment -> Double
 slope (LineSegment (Point x1 y1) (Point x2 y2)) = (y2 - y1) / (x2 - x1)
 
 ----
-data List = Null | NewList Int List deriving (Show)
-
+data List = Empty | NewList Int List deriving (Show)
 
 lenth :: List -> Int
 lsum  :: List -> Int
+ldel  :: List -> Int -> List
 
 lenth list = case list of
-  Null -> 0
+  Empty -> 0
   NewList _ rest -> 1 + lenth rest
 
 lsum list = case list of
-  Null -> 0
+  Empty -> 0
   NewList first rest -> first + lsum rest
+
+ldel Empty _ = Empty
+ldel (NewList first rest) num = if num == first
+  then rest
+  else NewList first (ldel rest num)
 
 --------------------
 
