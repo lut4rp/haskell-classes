@@ -16,6 +16,7 @@ data BST = Empty
 
 bfind    :: BST -> Int -> Bool
 binsert  :: BST -> Int -> BST
+bdelete  :: BST -> Int -> BST
 
 bfind Empty _num = False
 
@@ -27,15 +28,20 @@ bfind mybst num =
 
 binsert Empty num = Node Empty num Empty
 
-binsert mybst num =
-  if num > val mybst then
-    if right mybst == Empty then
-      Node (left mybst) (val mybst) (Node Empty num Empty) else
-      binsert (right mybst) num
-  else if left mybst == Empty then
-    Node (Node Empty num Empty) (val mybst) (right mybst) else
-    binsert (left mybst) num
+binsert mybst num = if num > val mybst
+    then Node (left mybst) (val mybst) (binsert (right mybst) num)
+    else Node (binsert (left mybst) num) (val mybst) (right mybst)
 
+bdelete Empty _num = Empty
+
+-- binsert mybst num =
+--   if num > val mybst
+--     then if right mybst == Empty then
+--       Node (left mybst) (val mybst) (Node Empty num Empty) else
+--       binsert (right mybst) num
+--     else if left mybst == Empty then
+--       Node (Node Empty num Empty) (val mybst) (right mybst) else
+--       binsert (left mybst) num
 
 -- Node {
 --   left = Node {

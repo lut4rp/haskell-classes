@@ -1,0 +1,22 @@
+module December26 where
+
+---- Homework ->>
+--
+-- Use your BST homework and...
+-- Write a "delete" function which takes a number to be deleted from the BST
+-- Write a "depth" function which gives the maximum number of levels in a BST
+--
+-- Find the Hamming distance between two strings
+-- Find it here: https://en.wikipedia.org/wiki/Hamming_distance
+--
+-- Write a function which takes an integer, and returns the number in words
+-- 12 - twelve
+-- 392 - three hundred ninety two
+-- 9234112 - nine million two hundred thirty four thousand one hundred twelve
+--
+-- Represent a tic tac toe board
+-- WAF (write a function) to pretty-print it
+-- WAF to figure out if the game is over
+-- WAF to figure out the legal moves, given a particular board
+-- WAF to take a move and apply it to the board
+-- WAF to actually "play" a game (it is okay if it is a dumb player)
