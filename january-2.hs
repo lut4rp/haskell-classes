@@ -32,11 +32,11 @@ instance Show' Bool where
 data List a = Empty | Cons a (List a) -- deriving (Show)
 
 instance (Show a) => Show (List a) where
-  show l = "<" ++ show' l ++ ">"
+  show l = "<" ++ show'' l ++ ">"
     where
-      show' Empty = ""
-      show' (Cons x Empty) = show x
-      show' (Cons x xs) = show x ++ ", " ++ show' xs
+      show'' Empty = ""
+      show'' (Cons x Empty) = show x
+      show'' (Cons x xs) = show x ++ ", " ++ show'' xs
 
 
 ----------------
