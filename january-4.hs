@@ -1,4 +1,4 @@
-module January4 where
+module January4() where
 
 import Data.List (intercalate)
 
@@ -6,12 +6,15 @@ import Data.List (intercalate)
 -- Implement "Show" on it to print it. Or pretty print maybe?
 
 newtype JObject = JObject [JRecord]
+
 instance Show JObject where
   show (JObject jrecords) = "{" ++ showRecords ++ "}"
     where
       showRecords = intercalate "," $ map show jrecords
 
+
 data JRecord = JRecord String JValue
+
 instance Show JRecord where
   show (JRecord key jvalue) = show key ++ ":" ++ show jvalue
 
@@ -22,6 +25,7 @@ data JValue = JValueArray [JValue]
             | JValueNumber Double
             | JValueBool Bool
             | JValueNull
+
 instance Show JValue where
   show (JValueObject o) = show o
   show (JValueArray a) = show a

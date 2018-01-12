@@ -1,0 +1,29 @@
+module January11Homework() where
+
+-- Implement Monoid for these data types...
+-- Max, Min, All, Any, First, Last.
+-- 
+-- newtype Max' a = Max' a
+-- newtype Min' a = Min' a
+-- newtype Any'= Any' Bool
+-- newtype All'= All' Bool
+-- newtype First' a = First' (Maybe a)
+-- newtype Last' a = Last' (Maybe a)
+-- data List a = EmptyList | Cons a (List a)
+-- data Set a = EmptySet | Node (Set a) a (Set a)
+--
+-- Reuse your `insert` function from BST homework
+--
+--
+-- Here's the behaviour of First' and Last':
+-- 
+-- Prelude Data.Monoid> First' (Just 1) <> First' (Just 2) <> First' (Just 3)
+-- First' {getFirst = Just 1}
+-- Prelude Data.Monoid> First' Nothing <> First' (Just 2) <> First' (Just 3)
+-- First' {getFirst = Just 2}
+-- Prelude Data.Monoid> First' Nothing <> First' (Just 2) <> First' Nothing
+-- First' {getFirst = Just 2}
+-- Prelude Data.Monoid> Last' (Just 1) <> Last' (Just 2) <> Last' (Just 3)
+-- Last' {getLast = Just 3}
+-- Prelude Data.Monoid> Last' (Just 1) <> Last' (Just 2) <> Last' Nothing
+-- Last' {getLast = Just 2}
