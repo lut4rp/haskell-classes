@@ -1,6 +1,5 @@
 module January11() where
 
-
 newtype Plus = Plus Int deriving (Show)
 
 instance Monoid Plus where
