@@ -64,8 +64,24 @@ instance Monoid (Last' a) where
   mappend _ _ = Last' Nothing
 
 
-data List a = EmptyList | Cons a (List a)
+data List a = EmptyList | Cons a (List a) deriving (Show)
 instance Monoid (List a) where
   mempty = EmptyList
   mappend EmptyList xs = xs
   mappend (Cons p ppp) qqq = Cons p (mappend ppp qqq)
+
+-----------
+
+data Set a = EmptySet | Node (Set a) a (Set a) deriving Show
+
+instance (Ord a) => Monoid (Set a) where
+  mempty = EmptySet
+  mappend EmptySet xset = xset
+  mappend (Node alset aval arset) another = mappend (binsert another aval) (mappend arset alset)
+
+binsert :: (Ord a) => Set a -> a -> Set a
+binsert EmptySet el = Node EmptySet el EmptySet
+binsert (Node left val right) el
+  | el == val = Node left val right
+  | el > val = Node left val (binsert right el)
+  | otherwise = Node (binsert left el) val right
