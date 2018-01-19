@@ -53,31 +53,27 @@ newtype First' a = First' (Maybe a)
 instance Monoid (First' a) where
   mempty = First' Nothing
   mappend (First' (Just a)) _ = First' (Just a)
-  mappend (First' Nothing) (First' (Just a)) = First' (Just a)
-  mappend _ _ = First' Nothing
+  mappend _ x = x
 
 newtype Last' a = Last' (Maybe a)
 instance Monoid (Last' a) where
   mempty = Last' Nothing
-  mappend (Last' Nothing) (Last' (Just a)) = Last' (Just a)
   mappend _ (Last' (Just a)) = Last' (Just a)
-  mappend _ _ = Last' Nothing
+  mappend x _ = x
 
 
 data List a = EmptyList | Cons a (List a) deriving (Show)
+pp :: List a -> List a -> List a
+pp EmptyList xs = xs
+pp (Cons p ppp) qqq = Cons p (pp ppp qqq)
+
 instance Monoid (List a) where
   mempty = EmptyList
-  mappend EmptyList xs = xs
-  mappend (Cons p ppp) qqq = Cons p (mappend ppp qqq)
+  mappend = pp
 
 -----------
 
 data Set a = EmptySet | Node (Set a) a (Set a) deriving Show
-
-instance (Ord a) => Monoid (Set a) where
-  mempty = EmptySet
-  mappend EmptySet xset = xset
-  mappend (Node alset aval arset) another = mappend (binsert another aval) (mappend arset alset)
 
 binsert :: (Ord a) => Set a -> a -> Set a
 binsert EmptySet el = Node EmptySet el EmptySet
@@ -85,3 +81,8 @@ binsert (Node left val right) el
   | el == val = Node left val right
   | el > val = Node left val (binsert right el)
   | otherwise = Node (binsert left el) val right
+
+instance (Ord a) => Monoid (Set a) where
+  mempty = EmptySet
+  mappend EmptySet xset = xset
+  mappend (Node alset aval arset) another = binsert another aval
