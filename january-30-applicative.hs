@@ -1,6 +1,6 @@
 module January30 where
 
--- Write applicatives for List' and Either'
+import Data.Monoid ((<>))
 
 data List a = EndList | Cons a (List a) deriving (Show)
 
@@ -8,7 +8,14 @@ listfuns :: List (Integer -> Integer)
 listfuns = Cons (+3) (Cons (*3) EndList)
 
 testlist :: List Integer
-testlist = Cons 1 (Cons 2 (Cons 3 EndList))
+testlist = Cons 1 (Cons 2 (Cons 3 (Cons 4 EndList)))
+
+instance Monoid (List a) where
+  mempty = EndList
+  mappend = pp
+    where
+      pp EndList xs = xs
+      pp (Cons x xs) ys = Cons x (pp xs ys)
 
 instance Functor List where
   fmap f (Cons x xs) = Cons (f x) (fmap f xs)
@@ -16,12 +23,11 @@ instance Functor List where
 
 instance Applicative List where
   pure x = Cons x EndList
-  Cons f fs <*> Cons x xs = Cons (f x) (fmap f xs)
-  Cons _ _ <*> EndList = EndList
-  _        <*> _       = EndList
+  Cons f fs <*> list   = fmap f list <> (fs <*> list)
+  _         <*> _      = EndList
 
 
--------------------------
+--------------------------------------------------------------------------------
 
 data Eether a b = Failure a | Success b deriving (Show)
 
