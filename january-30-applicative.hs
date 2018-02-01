@@ -2,6 +2,7 @@ module January30 where
 
 import Data.Monoid ((<>))
 
+
 data List a = EndList | Cons a (List a) deriving (Show)
 
 listfuns :: List (Integer -> Integer)
@@ -32,11 +33,25 @@ instance Applicative List where
 data Eether a b = Failure a | Success b deriving (Show)
 
 instance Functor (Eether a) where
-  fmap f (Success x) = Success (f x)
-  fmap _ (Failure x) = Failure x
+  fmap f (Success x)   = Success (f x)
+  fmap _ (Failure err) = Failure err
 
 instance Applicative (Eether a) where
   pure = Success
   Success f <*> Success x = Success (f x)
-  Failure f <*> Success _ = Failure f
-  _         <*> Failure x = Failure x
+  Success _ <*> Failure x = Failure x
+  Failure e <*> _         = Failure e
+
+
+--------------------------------------------------------------------------------
+
+data Mebbe a = Only a | Nada
+
+instance Functor Mebbe where
+  fmap f (Only x)  = Only (f x)
+  fmap _ Nada   = Nada
+
+instance Applicative Mebbe where
+  pure = Only
+  Only f <*> Only x = Only (f x)
+  _      <*> _      = Nada
