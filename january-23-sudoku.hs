@@ -2,7 +2,7 @@ module January23 where
 
 import Data.Char (digitToInt, isDigit)
 import Data.List ((\\), intercalate)
-import Data.Maybe (catMaybes, isNothing, mapMaybe)
+import Data.Maybe (catMaybes, isNothing)
 
 data Cell = Fixed Int | OneOf [Int] deriving (Show)
 
@@ -49,7 +49,7 @@ readBoard b =
       | isDigit c && c /= '0' = Just . Fixed . digitToInt $ c
       | otherwise             = Nothing
 
-    chunksOf n [] = []
+    chunksOf _ [] = []
     chunksOf n l =
       let first = take n l
           rest = chunksOf n (drop n l)
@@ -63,11 +63,11 @@ pruneOneOfs cells = map pruneOneOf cells
 
     pruneOneOf (Fixed v) = Fixed v
     pruneOneOf (OneOf vs) =
-      let rem = vs \\ del
+      let remaining = vs \\ del
       in
-        if length rem == 1
-        then Fixed . head $ rem
-        else OneOf rem
+        if length remaining == 1
+        then Fixed . head $ remaining
+        else OneOf remaining
 
 isFinished :: Board -> Bool
 isFinished = undefined
