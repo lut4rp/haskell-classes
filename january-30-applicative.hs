@@ -1,7 +1,7 @@
 module January30 where
 
 import Data.Monoid ((<>))
-
+import Control.Applicative
 
 data List a = EndList | Cons a (List a) deriving (Show)
 
@@ -27,6 +27,8 @@ instance Applicative List where
   Cons f fs <*> list   = fmap f list <> (fs <*> list)
   _         <*> _      = EndList
 
+instance Alternative List where
+  empty = EndList
 
 --------------------------------------------------------------------------------
 
@@ -55,3 +57,9 @@ instance Applicative Mebbe where
   pure = Only
   Only f <*> Only x = Only (f x)
   _      <*> _      = Nada
+
+instance Alternative Mebbe where
+  empty = Nada
+  Only x <|> _      = Only x
+  _      <|> Only y = Only y
+  _      <|> _      = Nada

@@ -1,15 +1,14 @@
 module February1Parser where
 
-import Control.Applicative
 import Data.Char
 import Debug.Trace
 
-newtype Parser i o = Parser { runParser :: i -> (Maybe o, i) }
+newtype Parser i o = Parser { runParser :: i -> Maybe (o, i) }
 
 instance Functor (Parser i) where
   -- fmap :: (o -> o') -> Parser i o -> Parser i o'
   fmap f p = Parser $ \input ->
-    let (mo, rest) = runParser p input
+    let Maybe (o, rest) = runParser p input
     in (fmap f mo, rest)
 
 instance Applicative (Parser i) where
@@ -21,16 +20,6 @@ instance Applicative (Parser i) where
     (Just f, rest) -> case runParser po rest of
       (Nothing, _)    -> (Nothing, rest)
       (Just o, rest') -> (Just (f o), rest')
-
-instance Alternative (Parser i) where
-  empty = Parser $ \input -> (Nothing, input)
-
-  p <|> q = Parser $ \input -> case runParser p input of
-    (Nothing, _) -> case runParser q input of
-      (Nothing, _) -> (Nothing, input)
-      x -> x
-    y -> y
-
 
 type Digit = Int
 
