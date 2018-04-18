@@ -1,10 +1,10 @@
 name:                khichdi
 version:             0.1.0.0
-github:              "githubuser/khichdi"
+github:              "lut4rp/khichdi"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2018 Author name here"
+author:              "pratul kalia"
+maintainer:          "pratul@pratul.in"
+copyright:           "2018 pratul kalia"
 
 extra-source-files:
 - README.md
@@ -24,6 +24,8 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+    - time
 
 executables:
   khichdi-exe:
