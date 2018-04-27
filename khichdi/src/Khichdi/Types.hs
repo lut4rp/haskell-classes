@@ -6,7 +6,8 @@ import Data.Time.Clock (UTCTime)
 - Create a user
 - Edit a user
 -}
-data User = User { uid :: Int
+type UserId = Int
+data User = User { uid :: UserId
                  , name :: String
                  , ulocation :: [Location]
                  } deriving (Eq, Show)
@@ -16,7 +17,8 @@ data User = User { uid :: Int
 - Edit a Location
 - Delete a location
 -}
-data Location = Location { lid :: Int
+type LocationId = Int
+data Location = Location { lid :: LocationId
                          , address :: String
                          } deriving (Eq, Show)
 
@@ -24,7 +26,8 @@ data Location = Location { lid :: Int
 - Create an order
 - Edit an order
 -}
-data Order = Order { oid :: Int
+type OrderId = Int
+data Order = Order { oid :: OrderId
                    , date :: UTCTime
                    , quantity :: Int
                    , user :: User
